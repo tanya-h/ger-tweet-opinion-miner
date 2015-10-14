@@ -25,7 +25,7 @@ public class StopList extends HashSet<String>{
      */
     private StopList(){
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                new FileInputStream("stopwords.txt"), "UTF-8"))) {
+                new FileInputStream("res/stopwords.txt"), "UTF-8"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 this.add(line);

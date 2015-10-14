@@ -106,7 +106,7 @@ public class OpinionMiner {
         tokenization = new Tokenization();
         lemmatization = new Lemmatization();
         is2.lemmatizer.Options optsLemmatizer = new is2.lemmatizer.Options(
-                new String[]{"-model", "lib/lemma-ger-3.6.model"});
+                new String[]{"-model", "res/lemma-ger-3.6.model"});
         lemmatizer = new Lemmatizer(optsLemmatizer);
     }
 

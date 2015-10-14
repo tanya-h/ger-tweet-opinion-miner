@@ -21,8 +21,8 @@ import java.util.HashMap;
 
 public final class Lexicon extends HashMap<String, Double>{
 
-    public static final Lexicon LEXICON_GERMAN = new  Lexicon("sentiWS.tsv");
-    public static final Lexicon LEXICON_ENGLISH = new Lexicon("senti_word_net.tsv");
+    public static final Lexicon LEXICON_GERMAN = new  Lexicon("res/sentiWS.tsv");
+    public static final Lexicon LEXICON_ENGLISH = new Lexicon("res/senti_word_net.tsv");
 
     private Lexicon (String filename) {
         try (BufferedReader br = new BufferedReader(new FileReader(new File(filename)))) {
