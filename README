@@ -1,0 +1,9 @@
+BUILD
+~~~~~
+$ mkdir -p obj
+$ javac -d obj/ -cp .:lib/anna-3.5.jar:lib/custom-translate-api.jar:lib/stanford-corenlp-3.4.jar src/gtopinionminer/*.java
+
+
+RUN
+~~~
+$ java -cp obj:lib/anna-3.5.jar:lib/custom-translate-api.jar:lib/stanford-corenlp-3.4.jar gtopinionminer.OpinionMiner
