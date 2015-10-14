@@ -141,10 +141,10 @@ public class OpinionMiner {
 
 
             //look for keywords
-            for (int pos = 0; pos < lemmas.size(); pos++) {
-                if (keywords.contains(lemmas.get(pos))) {
+            int pos = 0;
+            for (String relevant : lemmas) {
+                if (keywords.contains(relevant)) {
 
-                    String relevant = lemmas.get(pos);
                     LemmaList lemmaList = new LemmaList(relevant);
 
                     //assigning positional weight based on proximity to the keyword
@@ -162,6 +162,7 @@ public class OpinionMiner {
                     lemmaList.calculateSentiment();
                     if (!relevantTweets.contains(tweet)) relevantTweets.add(tweet);
                 }
+                pos++;
             }
             tweet.calculateAvgSentiment();
         } catch (IOException ex) {
