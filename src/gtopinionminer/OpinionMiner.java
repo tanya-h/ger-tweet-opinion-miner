@@ -30,6 +30,9 @@ import static java.lang.System.out;
 
 public class OpinionMiner {
 
+    static final int WINDOW_SIZE_RELEVANT = 4;
+    static final int TWEET_MAX_CHARACTERS = 140;
+
     List<String> keywords;
     List<Tweet> tweets, relevantTweets;
     static Set<String> stopwords = StopList.STOPWORDLIST;
@@ -130,7 +133,7 @@ public class OpinionMiner {
             List<String> lemmas = lemmatization.lemmatize(tokenization.tokenize(tweet.getTweetText()), lemmatizer);
 
             //remove stopwords
-            List<String> tmp = new ArrayList<>(140);
+            List<String> tmp = new ArrayList<>(TWEET_MAX_CHARACTERS);
             String suspect;
             for (int i = 0; i < lemmas.size(); i++){
                 if (stopwords.contains(suspect = lemmas.get(i))){
@@ -148,13 +151,13 @@ public class OpinionMiner {
                     LemmaList lemmaList = new LemmaList(relevant);
 
                     //assigning positional weight based on proximity to the keyword
-                    //window of size 4
+                    //window of size #WINDOW_SIZE_RELEVANT
                     int nb = 0, na = 0;
-                    for (int before = pos - 1; before >= 0 && before > pos - 5; before--) {
+                    for (int before = pos - 1; before >= 0 && before >= pos - WINDOW_SIZE_RELEVANT; before--) {
                         lemmaList.add(new TweetLemma(lemmas.get(before), 4 - nb++));
                     }
 
-                    for (int after = pos + 1; after < lemmas.size() && after < pos + 5; after++) {
+                    for (int after = pos + 1; after < lemmas.size() && after <= pos + WINDOW_SIZE_RELEVANT; after++) {
                         lemmaList.add(new TweetLemma(lemmas.get(after), 4 - na++));
                     }
 
