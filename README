@@ -2,7 +2,7 @@ BUILD
 ~~~~~
 $ mkdir -p obj
 $ javac -d obj/ -cp lib/anna-3.5.jar:lib/custom-translate-api.jar:lib/stanford-corenlp-3.4.jar src/gtopinionminer/*.java
-
+$ LC_ALL=en_US.UTF_8 javadoc -d docs/ -cp lib/anna-3.5.jar:lib/custom-translate-api.jar:lib/stanford-corenlp-3.4.jar src/gtopinionminer/*.java
 
 RUN
 ~~~
