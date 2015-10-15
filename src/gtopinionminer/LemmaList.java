@@ -55,11 +55,11 @@ public class LemmaList extends ArrayList<TweetLemma> {
 
             //intermediate values appended to a member StringBulder
             //WARNING: may decrease efficiency. outcomment for processing larger tweet sets.
-            sb.append(tl.getLemma()).append("\t[").append(tl.getDistanceToKeyword()).append(" , ");
+            sb.append(tl.getLemma()).append("\t[").append(tl.getDistanceToKeywordWeight()).append(" , ");
             sb.append(polarity).append("]\t");
 
             //normalization for individual scores
-            double x = polarity * tl.getDistanceToKeyword();
+            double x = polarity * tl.getDistanceToKeywordWeight();
             sum+= x<0 ? c*x : e*x;
 
         }
