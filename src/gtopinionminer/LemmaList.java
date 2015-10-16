@@ -34,8 +34,8 @@ public class LemmaList extends ArrayList<TweetLemma> {
      *     <li>multiplicating it with the proximity value</li>
      *     </ul>
      * <p> Before adding to the final result, the weighted score is normalized back
-     * to the interval [-1;1] while preserving neutral 0 scores.
-     * Normalization thus is a piece-wise linear range reduction.</p> 
+     * to the interval [-1;1] while preserving neutral 0 scores and emphasizing
+     * small absolute values non-linearly to account for extremal outliers.</p>
      */
 
     public void calculateSentiment() {
@@ -65,8 +65,9 @@ public class LemmaList extends ArrayList<TweetLemma> {
         }
         //normalization for total scores
         double tmp = sum / this.size();
-        double spread = 3;
-        sentiment = Math.signum(tmp)*Math.pow(Math.abs(tmp), 1/spread);
+        /* Gamma compression */
+        double gamma = 1./3;
+        sentiment = Math.signum(tmp)*Math.pow(Math.abs(tmp), gamma);
         sb.append("\nSentiment score: ").append(sentiment);
     }
 
