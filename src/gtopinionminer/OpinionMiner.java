@@ -124,10 +124,10 @@ public class OpinionMiner {
      *         respect to the distance (i.e. {@link java.lang.Math#abs(int)}) to
      *         the keyword, a number between 1 and #WINDOW_SIZE_RELEVANT.
      */
-    private static int offsetToKeyword2weight(int offset)
+    private static double offsetToKeyword2weight(int offset)
     {
         int distance = Math.abs(offset);
-        return WINDOW_SIZE_RELEVANT - Math.max(distance-1, 0);
+        return 1 - Math.max(distance-1, 0) / (double)WINDOW_SIZE_RELEVANT;
     }
 
 

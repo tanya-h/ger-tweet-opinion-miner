@@ -40,8 +40,8 @@ public class LemmaList extends ArrayList<TweetLemma> {
 
     public void calculateSentiment() {
         double sum = 0.0;
-        double c = 0.083; //constant for normalising negative values
-        double e = 0.125; //constant for normalising positive values
+        double c = 1./(2*1.5); //constant for normalising negative values
+        double e = 1./(2*1.0); //constant for normalising positive values
 
         for (TweetLemma tl : this) {
 
@@ -55,11 +55,11 @@ public class LemmaList extends ArrayList<TweetLemma> {
 
             //intermediate values appended to a member StringBulder
             //WARNING: may decrease efficiency. outcomment for processing larger tweet sets.
-            sb.append(tl.getLemma()).append("\t[").append(tl.getDistanceToKeywordWeight()).append(" , ");
+            sb.append(tl.getLemma()).append("\t[").append(tl.getWeight()).append(" , ");
             sb.append(polarity).append("]\t");
 
             //normalization for individual scores
-            double x = polarity * tl.getDistanceToKeywordWeight();
+            double x = polarity * tl.getWeight();
             sum+= x<0 ? c*x : e*x;
 
         }
