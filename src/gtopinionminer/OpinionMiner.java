@@ -151,15 +151,7 @@ public class OpinionMiner {
                         tokenization.tokenize(tweet.getTweetText()),
                         lemmatizer));
 
-        //remove stopwords
-        List<String> tmp = new ArrayList<>(TWEET_MAX_CHARACTERS);
-        String suspect;
-        for (int i = 0; i < lemmas.size(); i++){
-            if (stopwords.contains(suspect = lemmas.get(i))){
-                tmp.add(suspect);
-            }
-        }
-        lemmas.removeAll(tmp);
+        lemmas.removeAll(stopwords);
 
 
         //look for keywords
