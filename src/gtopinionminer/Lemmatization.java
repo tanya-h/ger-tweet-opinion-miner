@@ -22,22 +22,18 @@ public class Lemmatization {
      *
      * @param tokens tokens to be lemmatized
      * @param lemmatizer instance of Mate lemmatizer with the correct model loaded
-     * @return a List of lemmatized Strings
+     * @return an unmodifiable List of lemmatized Strings
      * @throws IOException if the specified model cannot be found
      */
 
     public List<String> lemmatize(List<String> tokens, Lemmatizer lemmatizer)
             throws IOException {
 
-        List<String> lemmas = new ArrayList<>();
         i = new SentenceData09(); // create a data container for a sentence
 
 
-        ArrayList<String> forms = new ArrayList<>(tokens);
-
-        i.init(forms.toArray(new String[0]));
+        i.init(tokens.toArray(new String[0]));
         lemmatizer.apply(i); // lemmatize a sentence; the result is stored in the sentenceData09 i
-        lemmas.addAll(Arrays.asList(i.plemmas));
-        return lemmas;
+        return Arrays.asList(i.plemmas);
     }
 }
