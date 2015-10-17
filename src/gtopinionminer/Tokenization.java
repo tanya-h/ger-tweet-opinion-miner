@@ -3,12 +3,9 @@ package gtopinionminer;
 import edu.stanford.nlp.ling.Word;
 import edu.stanford.nlp.process.PTBTokenizer;
 
-import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 /**
@@ -26,16 +23,14 @@ public class Tokenization {
      */
 
     public List<String> tokenize(String text) {
-        List<String> tokens = new ArrayList<>();
 
-        Pattern pat = Pattern.compile("[-]");
-        Matcher m = pat.matcher(text);
-        String str = m.replaceAll(" - ");
-        str = str.replaceAll(",", " ");
+        String str = text.replace("-", " - ");
+        str = str.replace(",", " ");
 
         PTBTokenizer<Word> tokenizer = PTBTokenizer
-                .newPTBTokenizer(new BufferedReader(new StringReader(str)));
+                .newPTBTokenizer(new StringReader(str));
         List<Word> words = tokenizer.tokenize();
+        List<String> tokens = new ArrayList<>(words.size());
         for (Word w : words) {
             tokens.add(w.value());
         }
