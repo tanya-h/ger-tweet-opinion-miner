@@ -147,7 +147,10 @@ public class OpinionMiner {
     private void processTweets(Tweet tweet) {
 
         try {
-            List<String> lemmas = lemmatization.lemmatize(tokenization.tokenize(tweet.getTweetText()), lemmatizer);
+            ArrayList<String> lemmas = new ArrayList<>(
+                    lemmatization.lemmatize(
+                            tokenization.tokenize(tweet.getTweetText()),
+                            lemmatizer));
 
             //remove stopwords
             List<String> tmp = new ArrayList<>(TWEET_MAX_CHARACTERS);
@@ -161,8 +164,8 @@ public class OpinionMiner {
 
 
             //look for keywords
-            int pos = 0;
-            for (String relevant : lemmas) {
+            for (int pos = 0; pos < lemmas.size(); pos++) {
+                String relevant = lemmas.get(pos);
                 if (keywords.contains(relevant)) {
 
                     LemmaList lemmaList = new LemmaList(relevant);
@@ -185,7 +188,6 @@ public class OpinionMiner {
                     lemmaList.calculateSentiment();
                     if (!relevantTweets.contains(tweet)) relevantTweets.add(tweet);
                 }
-                pos++;
             }
             tweet.calculateAvgSentiment();
         } catch (IOException ex) {
