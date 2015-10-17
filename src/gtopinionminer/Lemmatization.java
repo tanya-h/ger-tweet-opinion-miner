@@ -26,8 +26,7 @@ public class Lemmatization {
      * @throws IOException if the specified model cannot be found
      */
 
-    public List<String> lemmatize(List<String> tokens, Lemmatizer lemmatizer)
-            throws IOException {
+    public List<String> lemmatize(List<String> tokens, Lemmatizer lemmatizer) {
         i.init(tokens.toArray(new String[0]));
         lemmatizer.apply(i); // lemmatize a sentence; the result is stored in the sentenceData09 i
         return Arrays.asList(i.plemmas);
