@@ -148,53 +148,48 @@ public class OpinionMiner {
      */
     private void processTweets(Tweet tweet) {
 
-        try {
-            ArrayList<String> lemmas = new ArrayList<>(
-                    lemmatization.lemmatize(
-                            tokenization.tokenize(tweet.getTweetText()),
-                            lemmatizer));
+        ArrayList<String> lemmas = new ArrayList<>(
+                lemmatization.lemmatize(
+                        tokenization.tokenize(tweet.getTweetText()),
+                        lemmatizer));
 
-            //remove stopwords
-            List<String> tmp = new ArrayList<>(TWEET_MAX_CHARACTERS);
-            String suspect;
-            for (int i = 0; i < lemmas.size(); i++){
-                if (stopwords.contains(suspect = lemmas.get(i))){
-                    tmp.add(suspect);
-                }
+        //remove stopwords
+        List<String> tmp = new ArrayList<>(TWEET_MAX_CHARACTERS);
+        String suspect;
+        for (int i = 0; i < lemmas.size(); i++){
+            if (stopwords.contains(suspect = lemmas.get(i))){
+                tmp.add(suspect);
             }
-            lemmas.removeAll(tmp);
-
-
-            //look for keywords
-            for (int pos = 0; pos < lemmas.size(); pos++) {
-                if (keywords.contains(lemmas.get(pos))) {
-
-                    String relevant = lemmas.get(pos);
-                    LemmaList lemmaList = new LemmaList(relevant);
-
-                    //assigning positional weight based on proximity to the keyword
-                    //window of size #WINDOW_SIZE_RELEVANT
-                    for (int before = pos - 1; before >= 0 && before >= pos - WINDOW_SIZE_RELEVANT; before--) {
-                        lemmaList.add(new TweetLemma(
-                                lemmas.get(before),
-                                offsetToKeyword2weight(pos - before)));
-                    }
-
-                    for (int after = pos + 1; after < lemmas.size() && after <= pos + WINDOW_SIZE_RELEVANT; after++) {
-                        lemmaList.add(new TweetLemma(
-                                lemmas.get(after),
-                                offsetToKeyword2weight(pos - after)));
-                    }
-
-                    tweet.addRelevant(relevant, lemmaList);
-                    lemmaList.calculateSentiment();
-                    if (!relevantTweets.contains(tweet)) relevantTweets.add(tweet);
-                }
-            }
-            tweet.calculateAvgSentiment();
-        } catch (IOException ex) {
-            ex.printStackTrace();
         }
+        lemmas.removeAll(tmp);
+
+        //look for keywords
+        for (int pos = 0; pos < lemmas.size(); pos++) {
+            if (keywords.contains(lemmas.get(pos))) {
+
+                String relevant = lemmas.get(pos);
+                LemmaList lemmaList = new LemmaList(relevant);
+
+                //assigning positional weight based on proximity to the keyword
+                //window of size #WINDOW_SIZE_RELEVANT
+                for (int before = pos - 1; before >= 0 && before >= pos - WINDOW_SIZE_RELEVANT; before--) {
+                    lemmaList.add(new TweetLemma(
+                            lemmas.get(before),
+                            offsetToKeyword2weight(pos - before)));
+                }
+
+                for (int after = pos + 1; after < lemmas.size() && after <= pos + WINDOW_SIZE_RELEVANT; after++) {
+                    lemmaList.add(new TweetLemma(
+                            lemmas.get(after),
+                            offsetToKeyword2weight(pos - after)));
+                }
+
+                tweet.addRelevant(relevant, lemmaList);
+                lemmaList.calculateSentiment();
+                if (!relevantTweets.contains(tweet)) relevantTweets.add(tweet);
+            }
+        }
+        tweet.calculateAvgSentiment();
     }
 
     /**
