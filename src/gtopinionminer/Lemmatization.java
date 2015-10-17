@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Lemmatization {
 
-    SentenceData09 i; // data container for the sentence
+    SentenceData09 i = new SentenceData09(); // data container for the sentence
 
     /**
      *
@@ -28,10 +28,6 @@ public class Lemmatization {
 
     public List<String> lemmatize(List<String> tokens, Lemmatizer lemmatizer)
             throws IOException {
-
-        i = new SentenceData09(); // create a data container for a sentence
-
-
         i.init(tokens.toArray(new String[0]));
         lemmatizer.apply(i); // lemmatize a sentence; the result is stored in the sentenceData09 i
         return Arrays.asList(i.plemmas);
