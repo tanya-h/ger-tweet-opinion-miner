@@ -119,15 +119,17 @@ public class OpinionMiner {
      *
      * @param offset  the (signed) offset of the lemma to the keyword (negative
      *                when it's positioned before to the keyword, positive
-     *                otherwise)
+     *                otherwise). Should be between -#WINDOW_SIZE_RELEVANT and
+     *                +#WINDOW_SIZE_RELEVANT for useful results.
      * @return the influence of this lemma on the sentiment score the with
      *         respect to the distance (i.e. {@link java.lang.Math#abs(int)}) to
-     *         the keyword, a number between 1 and #WINDOW_SIZE_RELEVANT.
+     *         the keyword, a weight between 0 (for maximum distance) and 1
+     *         (for offset 0).
      */
-    private static int offsetToKeyword2weight(int offset)
+    private static double offsetToKeyword2weight(int offset)
     {
         int distance = Math.abs(offset);
-        return WINDOW_SIZE_RELEVANT - Math.max(distance-1, 0);
+        return 1 - Math.max(distance-1, 0) / (double)WINDOW_SIZE_RELEVANT;
     }
 
 

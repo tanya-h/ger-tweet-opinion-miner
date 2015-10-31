@@ -3,7 +3,7 @@ package gtopinionminer;
 public class TweetLemma {
 
     private String lemma;
-    private int distanceToKeywordWeight;
+    private double weight;
     private boolean negated;
     private boolean hashtagged;
 
@@ -17,19 +17,19 @@ public class TweetLemma {
      * @see LemmaList#calculateSentiment()
      */
 
-    public TweetLemma(String lemma, int distanceToKeywordWeight) {
+    public TweetLemma(String lemma, double weight) {
         this.lemma = lemma;
         if (lemma.startsWith("#")) this.hashtagged = true;
         if (lemma.matches("(nicht)|((kein)|(\\bnie)|(\\bun)).+")) this.negated = true;
-        this.distanceToKeywordWeight = distanceToKeywordWeight;
+        this.weight = weight;
     }
 
     public String getLemma() {
         return lemma;
     }
 
-    public int getDistanceToKeywordWeight() {
-        return distanceToKeywordWeight;
+    public double getWeight() {
+        return weight;
     }
 
     public boolean isNegated() {
