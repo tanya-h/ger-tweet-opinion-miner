@@ -113,6 +113,23 @@ public class OpinionMiner {
         lemmatizer = new Lemmatizer(optsLemmatizer);
     }
 
+    /**
+     * Maps the offset of a relevant lemma to a keyword to a weight suitable for
+     * use in {@link LemmaList#calculateSentiment()}.
+     *
+     * @param offset  the (signed) offset of the lemma to the keyword (negative
+     *                when it's positioned before to the keyword, positive
+     *                otherwise)
+     * @return the influence of this lemma on the sentiment score the with
+     *         respect to the distance (i.e. {@link java.lang.Math#abs(int)}) to
+     *         the keyword, a number between 1 and #WINDOW_SIZE_RELEVANT.
+     */
+    private static int offsetToKeyword2weight(int offset)
+    {
+        int distance = Math.abs(offset);
+        return WINDOW_SIZE_RELEVANT - Math.max(distance-1, 0);
+    }
+
 
     /**
      * @param tweet tweet to process
@@ -152,13 +169,16 @@ public class OpinionMiner {
 
                     //assigning positional weight based on proximity to the keyword
                     //window of size #WINDOW_SIZE_RELEVANT
-                    int nb = 0, na = 0;
                     for (int before = pos - 1; before >= 0 && before >= pos - WINDOW_SIZE_RELEVANT; before--) {
-                        lemmaList.add(new TweetLemma(lemmas.get(before), 4 - nb++));
+                        lemmaList.add(new TweetLemma(
+                                lemmas.get(before),
+                                offsetToKeyword2weight(pos - before)));
                     }
 
                     for (int after = pos + 1; after < lemmas.size() && after <= pos + WINDOW_SIZE_RELEVANT; after++) {
-                        lemmaList.add(new TweetLemma(lemmas.get(after), 4 - na++));
+                        lemmaList.add(new TweetLemma(
+                                lemmas.get(after),
+                                offsetToKeyword2weight(pos - after)));
                     }
 
                     tweet.addRelevant(relevant, lemmaList);
