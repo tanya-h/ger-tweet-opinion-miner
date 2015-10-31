@@ -31,7 +31,6 @@ import static java.lang.System.out;
 public class OpinionMiner {
 
     static final int WINDOW_SIZE_RELEVANT = 4;
-    static final int TWEET_MAX_CHARACTERS = 140;
 
     List<String> keywords;
     List<Tweet> tweets, relevantTweets;
@@ -153,15 +152,7 @@ public class OpinionMiner {
                         tokenization.tokenize(tweet.getTweetText()),
                         lemmatizer));
 
-        //remove stopwords
-        List<String> tmp = new ArrayList<>(TWEET_MAX_CHARACTERS);
-        String suspect;
-        for (int i = 0; i < lemmas.size(); i++){
-            if (stopwords.contains(suspect = lemmas.get(i))){
-                tmp.add(suspect);
-            }
-        }
-        lemmas.removeAll(tmp);
+        lemmas.removeAll(stopwords);
 
         //look for keywords
         for (int pos = 0; pos < lemmas.size(); pos++) {
