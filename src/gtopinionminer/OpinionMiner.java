@@ -149,7 +149,10 @@ public class OpinionMiner {
     private void processTweets(Tweet tweet) {
 
         try {
-            List<String> lemmas = lemmatization.lemmatize(tokenization.tokenize(tweet.getTweetText()), lemmatizer);
+            ArrayList<String> lemmas = new ArrayList<>(
+                    lemmatization.lemmatize(
+                            tokenization.tokenize(tweet.getTweetText()),
+                            lemmatizer));
 
             //remove stopwords
             List<String> tmp = new ArrayList<>(TWEET_MAX_CHARACTERS);
