@@ -154,12 +154,11 @@ public class OpinionMiner {
 
         lemmas.removeAll(stopwords);
 
-
         //look for keywords
         for (int pos = 0; pos < lemmas.size(); pos++) {
-            String relevant = lemmas.get(pos);
-            if (keywords.contains(relevant)) {
+            if (keywords.contains(lemmas.get(pos))) {
 
+                String relevant = lemmas.get(pos);
                 LemmaList lemmaList = new LemmaList(relevant);
 
                 //assigning positional weight based on proximity to the keyword
